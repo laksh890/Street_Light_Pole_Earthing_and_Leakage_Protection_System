@@ -53,9 +53,10 @@ The **Smart Pole Fault Detection System** is a mission-critical IoT solution des
 ```mermaid
 graph TD
     %% Node Styling
-    classDef hardware fill:#f9f,stroke:#333,stroke-width:2px;
-    classDef cloud fill:#bbf,stroke:#333,stroke-width:2px;
-    classDef safety fill:#f96,stroke:#333,stroke-width:2px;
+    classDef hardware fill:#1a237e,stroke:#1a237e,stroke-width:2px,color:#ffffff;
+    classDef cloud fill:#004d40,stroke:#004d40,stroke-width:2px,color:#ffffff;
+    classDef safety fill:#b71c1c,stroke:#b71c1c,stroke-width:2px,color:#ffffff;
+    classDef power fill:#37474f,stroke:#37474f,stroke-width:2px,color:#ffffff;
 
     %% Power
     subgraph Power ["🔌 Power Management"]
@@ -87,6 +88,7 @@ graph TD
     class ESP32,CT,VD hardware;
     class FIREBASE,WHATSAPP cloud;
     class RELAY,ALARM safety;
+    class SUPPLY power;
 ```
 
 ### 📍 Pin Mapping Table
