@@ -1,0 +1,28 @@
+#ifndef CONFIG_H
+#define CONFIG_H
+
+// Wi-Fi Credentials
+#define WIFI_SSID "YOUR_WIFI_SSID"
+#define WIFI_PASSWORD "YOUR_WIFI_PASSWORD"
+
+// UltraMsg API Credentials
+#define ULTRAMSG_INSTANCE_ID "your_instance_id"
+#define ULTRAMSG_TOKEN "your_token"
+#define RECIPIENT_NUMBER "+1234567890"
+
+// Firebase Credentials
+#define FIREBASE_API_KEY "your_api_key"
+#define FIREBASE_DATABASE_URL "your_database_url"
+
+// Pin Definitions
+#define V1_VOLTAGE 3.3
+#define V2_PIN 33
+#define ALARM_PIN 18
+#define RELAY_PIN 27
+#define CURRENT_SENSOR_PIN 34
+
+// Calibration Constants
+#define CURRENT_CALIBRATION 0.0368
+#define R1_RESISTANCE 2000
+
+#endif // CONFIG_H

@@ -1,117 +1,140 @@
 # ⚡ Smart Pole Fault Detection System
 
-An IoT-based embedded system designed to detect **electrical faults in street lighting infrastructure**, including leakage current and poor earthing conditions.
-
-This system enables **real-time monitoring, automated safety response, and remote alerting**, making it ideal for smart city deployments.
-
----
-
-## 🚀 Overview
-
-Urban electrical infrastructure is prone to hidden faults that can cause:
-- ⚠️ Electric shocks
-- 🔥 Fire hazards
-- ⚡ Energy loss
-
-This project provides a **low-cost, scalable solution** using ESP32 and cloud connectivity to continuously monitor pole health and take immediate action.
+<p align="center">
+  <img src="https://img.shields.io/badge/PlatformIO-Compatible-orange?style=for-the-badge&logo=platformio" alt="PlatformIO">
+  <img src="https://img.shields.io/badge/ESP32-Powered-blue?style=for-the-badge&logo=espressif" alt="ESP32">
+  <img src="https://img.shields.io/badge/License-MIT-green?style=for-the-badge" alt="MIT License">
+  <img src="https://img.shields.io/badge/Framework-Arduino-00979D?style=for-the-badge&logo=arduino" alt="Arduino">
+</p>
 
 ---
 
-## 🧠 Key Features
+## 🏆 SIH 2024 Hardware Edition Highlights
 
-- ⚡ **Leakage Current Detection**
-- 🌍 **Earthing Resistance Monitoring**
-- 🔔 **Instant WhatsApp Alerts (UltraMsg API)**
-- ☁️ **Cloud Logging via Firebase**
-- 🔌 **Automatic Power Cut-off using Relay**
-- 📡 **WiFi-enabled real-time monitoring**
-- 🔁 **Retry & Fault Handling Logic**
+The Smart Pole Fault Detection System was demonstrated at the **Smart India Hackathon 2024 Grand Finale (Hardware Edition)**.
 
----
-## 🚨 Fault Conditions
-Condition	Trigger
-Earthing Fault	Resistance > Threshold
-Broken Line	Open circuit detected
-Leakage Current	Current > Safe limit
+<p align="center">
+  <img src="sih_demo.png" width="45%" alt="Project Demonstration">
+  <img src="team_with_jury.jpg" width="45%" alt="Team with Jury">
+  <br>
+  <i>Left: Hardware prototype demonstration. Right: Team interaction with the Grand Finale Jury.</i>
+</p>
 
----
-
-## 🏗️ System Architecture
-[ Sensors ] → [ ESP32 ] → [ Firebase RTDB ]
-↓
-[ Alert System ]
-↓
-WhatsApp API
-
+<p align="center">
+  <img src="team_photo_1.jpg" width="80%" alt="Team Photo">
+  <br>
+  <i>The core development team at the SIH 2024 Grand Finale.</i>
+</p>
 
 ---
 
-## 🔧 Hardware Components
+## 📖 Overview
 
-- ESP32 Microcontroller  
-- Current Sensor (via EmonLib)  
-- Voltage Divider Circuit (for earthing measurement)  
-- Relay Module  
-- Buzzer / Alarm  
-- Power Supply Unit  
+The **Smart Pole Fault Detection System** is a mission-critical IoT solution designed to safeguard urban electrical infrastructure. By monitoring leakage current and earthing resistance in real-time, it prevents hazards such as electric shocks and electrical fires.
 
----
-
-## 💻 Software Stack
-
-- Embedded C++ (Arduino Framework)
-- Firebase Realtime Database
-- UltraMsg WhatsApp API
-- ESP32 WiFi Stack
+### 🌟 Core Capabilities
+- 🛡️ **Autonomous Safety**: Immediate power isolation via relays when critical faults occur.
+- 📡 **Instant Alerts**: WhatsApp notifications delivered directly to maintenance teams.
+- 📊 **Live Monitoring**: Real-time data logging to Firebase for historical analysis.
+- ⚙️ **Modular Design**: Highly scalable architecture for easy sensor expansion.
 
 ---
 
-## 📁 Project Structure
-smart-pole-iot/
-│
-├── firmware/
-│ ├── main.ino
-│ ├── config.h # (NOT uploaded)
-│ ├── secrets.example.h # Template file
-│
-├── docs/
-│ ├── architecture.png
-│ ├── wiring_diagram.png
-│
-├── README.md
-├── LICENSE
-├── .gitignore
+## 🔌 Circuit Architecture
 
+### 🛠️ Hardware Visualization
+<p align="center">
+  <img src="circuit_diagram.png" alt="Circuit Concept" width="800">
+  <br>
+  <i>Conceptual visualization of the Smart Pole sensing and control nodes.</i>
+</p>
 
-## 📦 Dependencies
-WiFi (ESP32 Core)
-HTTPClient
-Firebase ESP Client
-EmonLib
-ArduinoJson (optional)
-Wire (if I2C used)
-SPI (if SPI used)
+### 📐 Logical Connections
+```mermaid
+graph TD
+    %% Node Styling
+    classDef hardware fill:#f9f,stroke:#333,stroke-width:2px;
+    classDef cloud fill:#bbf,stroke:#333,stroke-width:2px;
+    classDef safety fill:#f96,stroke:#333,stroke-width:2px;
+
+    %% Power
+    subgraph Power ["🔌 Power Management"]
+        SUPPLY[5V/12V DC] --> ESP32[ESP32 Core]
+        SUPPLY --> RELAY[Relay Module]
+    end
+
+    %% Inputs
+    subgraph Sensing ["🔍 Fault Detection"]
+        CT[CT Sensor SCT013] --- PIN34[GPIO 34]
+        VD[Voltage Divider] --- PIN33[GPIO 33]
+        GND[Earth Ground] --- VD
+    end
+
+    %% Outputs
+    subgraph Control ["🚨 Safety Actuation"]
+        ESP32 -- "Trigger" --> ALARM[Buzzer]
+        ESP32 -- "Isolate" --> RELAY
+        RELAY -- "Safe Cutoff" --> LIGHT[Street Light]
+    end
+
+    %% Cloud
+    subgraph Cloud ["🌐 Cloud & Alerts"]
+        ESP32 -- "WiFi" --> FIREBASE[Firebase RTDB]
+        ESP32 -- "API" --> WHATSAPP[UltraMsg WhatsApp]
+    end
+
+    %% Applying styles
+    class ESP32,CT,VD hardware;
+    class FIREBASE,WHATSAPP cloud;
+    class RELAY,ALARM safety;
+```
+
+### 📍 Pin Mapping Table
+
+| Component | Pin | Function | Logic |
+| :--- | :--- | :--- | :--- |
+| **CT Sensor** | `GPIO 34` | Analog Input | Current Measurement |
+| **Earthing Divider** | `GPIO 33` | Analog Input | Resistance Calculation |
+| **System Alarm** | `GPIO 18` | Digital Output | Active HIGH on Fault |
+| **Power Relay** | `GPIO 27` | Digital Output | Active HIGH to Isolate |
 
 ---
 
-## 🧪 Future Improvements
-📡 LoRa-based communication
-📊 Web dashboard visualization
-🤖 ML-based fault prediction
-🔄 OTA firmware updates
-⚡ Power optimization
+## 🏗️ Modular Software Design
+
+This firmware is built for **scalability**. Instead of a monolithic block, it uses a manager-based architecture:
+
+1.  **`SensorManager`**: Handles all analog/digital sensing operations.
+2.  **`CommManager`**: Abstracts WiFi, Firebase, and API protocols.
+3.  **`SafetySystem`**: Controls the finite state machine for safety interlocks.
+4.  **`Config`**: Single point of entry for credentials and hardware pins.
 
 ---
 
-## 🎯 Use Cases
-Smart Cities
-Industrial Safety Systems
-Electrical Infrastructure Monitoring
-Government Urban Projects
+## 🔧 Installation & Setup
+
+1.  **Clone & Initialize**
+    ```bash
+    git clone https://github.com/laksh890/Street_Light_Pole_Earthing_and_Leakage_Protection_System.git
+    cd Street_Light_Pole_Earthing_and_Leakage_Protection_System
+    ```
+2.  **Configure Secrets**
+    - Copy `include/config.h.example` to `include/config.h`.
+    - Populate your WiFi and API credentials.
+3.  **Deploy**
+    - Open the project in **VS Code** with **PlatformIO**.
+    - Hit `Build` and then `Upload`.
 
 ---
 
 ## 👨‍💻 Author
 
-Lakshay Gandotra
-Civil Engineering, NIT Srinagar
+**Lakshay Gandotra**  
+*Electrical Engineering, NIT Srinagar*  
+[Connect on GitHub](https://github.com/laksh890)
+
+---
+
+## ⚖️ License
+
+Distributed under the MIT License. See `LICENSE` for more information.

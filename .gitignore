@@ -1,3 +1,9 @@
 config.h
 *.bin
 *.log
+*.pio
+.vscode
+*.bak
+*.orig
+node_modules
+.DS_Store
